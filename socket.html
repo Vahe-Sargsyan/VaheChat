@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html >
+  <head>
+    <meta charset="utf-8">
+    <title>
+         Սոքեթների հատ աշխատանք python
+    </title>
+  </head>
+  <style type="text/css">
+    body{
+      font-family: sans-serif;
+    }
+    .message{
+      border-radius: 15px;
+      padding: 15px;
+      width: 50%;
+      margin:0 auto;
+      background-color: #00ddff;
+
+    }
+    .message p{
+      /*margin:10px 0;*/
+      background-color: red;
+      padding-bottom: 15px;
+      padding: 15px;
+      border-radius: 10px;
+
+    
+    }
+    .message p *{
+      max-width: 100%;
+    }
+    .message span{
+      color: white;
+      padding: 10px;
+      border-radius: 10px;
+
+      /*background-color: blue;*/
+      display: inline;
+    }
+    textarea{
+        width: 40%;
+        margin: 10px auto;
+        display: block;
+        border-radius: 10px;
+        border: none;
+        background-color: #63824e;
+        color: white;
+        padding: 15px;
+    }
+    .logo h3{
+      display: block;
+      margin:0 auto; 
+      font-size: 30px;
+      text-align: center;
+      color: white;
+    }
+    .logo h6{
+
+      display: block;
+      margin:0 auto; 
+
+      text-align: center;
+      color: white;
+    }
+    img{
+      border-radius:15px;
+      max-width: 100%;
+
+    }
+
+    @media only screen and (max-width: 1200px) {
+       .message{
+          width: 80%;
+       }
+       textarea{
+        width: 70%;
+       }
+     } 
+  </style>
+  <body>
+
+
+    <div class="message">
+      <div class="logo">
+        <h3>VaheChat</h3>
+        <h6>by OXYGENIUM</h6>
+
+      </div>
+
+    </div>
+
+  <p style="text-align: center;">Ուղարկելու համար սեղմեք Enter</p>
+  <textarea placeholder="Ուղարկելու համար սեղմեք Enter"></textarea>
+
+
+
+
+
+  <script>
+  var socket = new WebSocket("ws://192.168.2.104:5678");
+  socket.onopen = function(){
+
+    document.querySelector("textarea").addEventListener('keyup', function(e){
+      if(e.keyCode === 13){
+
+        socket.send(this.value.trim());
+        this.value = "";
+
+        if(this.value.trim() === ""){
+          return false;
+        }
+      }
+
+    });
+
+  };
+  socket.onerror = function(){
+    console.log('Միացման խնդիր');
+  };
+
+var p = "";
+
+  socket.onmessage = function(e){
+    p = document.createElement("p");
+    var span = document.createElement("span");
+    span.innerHTML = e.data;
+    document.querySelector(".message").appendChild(p).appendChild(span);
+    // document.querySelector(".message").appendChild(br);
+
+
+  };
+  </script>
+</html>
